@@ -1,9 +1,9 @@
-export function bikeCall(location) {
+export function bikeCall(location, colorArr) {
   let promise = new Promise(function(resolve, reject) {
     let request = new XMLHttpRequest();
     let userLocation = location;
     let proximity = 20;
-    let url = `https://bikeindex.org/api/v3/search?/api_key=${process.env.API_KEY}&location=${location}&stolenness=proximity&distance=${proximity}&per_page=25`;
+    let url = `https://bikeindex.org/api/v3/search?/api_key=${process.env.API_KEY}&location=${location}&stolenness=proximity&distance=${proximity}&per_page=100`;
 
     request.onload = function() {
       if (this.status === 200) {
@@ -29,11 +29,22 @@ export function bikeCall(location) {
       let bikeString = element.title + ", " + bikeColors + ", " + element.stolen_location;
       simpleBikeArray.push(bikeString);
     });
+    console.log(colorArr);
+    body.bikes.forEach(function(element) {
+      for(var index in colorArr) {
+        if (index === element.frame_colors[0]) {
+            colorArr[index]++;
+            console.log(colorArr);
+          }
+        }
+      })
+    for(var index in colorArr) {
+      $(".output").append("<p>" + index + ": " + colorArr[index] + "</p>");
+    }
 
     // simpleBikeArray.forEach(function(element) {
     //   $(".output").append("<p>" + element + "</p>");
     // });
-    return simpleBikeArray;
   }, function(error) {
     console.log(error.message);
   });
@@ -54,20 +65,16 @@ export function colorCount() {
     request.open("GET", url, true);
     request.send();
   });
-
+  let colorArr = [];
   promise.then(function(response) {
     let body = JSON.parse(response);
-    let colorArr = [];
+
     body.colors.forEach(function(element) {
           colorArr[element.name] = 0;
         });
 
-    for(var index in colorArr) {
-      $(".output").append("<p>" + index + ": " + colorArr[index] + "</p>");
-    }
-
-    return colorArr;
   }, function(error) {
     console.log(error.message);
   });
+  return colorArr;
 }
