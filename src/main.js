@@ -1,8 +1,8 @@
-import { bikeCall, colorCount, displayEachBikeColor, makeColorArray } from './bike.js';
+import { mainSearch } from './bike.js';
 
-let displayColors = function(colorArr2) {
-  for(var index in colorArr2) {
-    $(".test-output").append("<p>" + index + ": " + colorArr2[index] + "</p>");
+let displayColors = function(finishedArray) {
+  for(var index in finishedArray) {
+    $(".output").append("<p>" + index + ": " + finishedArray[index] + "</p>");
   }
 }
 
@@ -10,22 +10,17 @@ let displayColors = function(colorArr2) {
 $(document).ready(function(){
   $('#submit-location').submit(function(event){
     event.preventDefault();
-    //bikeCall($('#location').val(), colorArr);
-    // let displayColors = function(colorArr2) {
-    //   for(var index in colorArr2) {
-    //     $(".test-output").append("<p>" + index + ": " + colorArr2[index] + "</p>");
-    //   }
-    // }
-    let colorPromise = colorCount()
+    let newSearch = new mainSearch($('#location').val());
+    let colorPromise = newSearch.colorCount()
     colorPromise.then(function(response){
-      let colorArr = makeColorArray(response)
-      let promise = bikeCall($('#location').val());
+      let colorArr = newSearch.makeColorArray(response)
+      let promise = newSearch.bikeCall();
       promise.then(function(response){
-        let stolenColors=displayEachBikeColor(response, colorArr);
+        let stolenColors = newSearch.displayEachBikeColor(response, colorArr);
         displayColors(stolenColors);
       });
-      promise.error();
+      //promise.error();
     });
-    colorPromise.error();
+  //  colorPromise.error();
   });
 });

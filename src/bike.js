@@ -1,14 +1,15 @@
 export class mainSearch {
   constructor(location) {
-    this.location = location;
+    this.place = location;
   }
 
   bikeCall() {
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
-      let userLocation = location;
+      let userLocation = this.place;
+      console.log(this.place);
       let proximity = 20;
-      let url = `https://bikeindex.org/api/v3/search?/api_key=${process.env.API_KEY}&location=${location}&stolenness=proximity&distance=${proximity}&per_page=100`;
+      let url = `https://bikeindex.org/api/v3/search?/api_key=${process.env.API_KEY}&location=${userLocation}&stolenness=proximity&distance=${proximity}&per_page=100`;
 
       request.onload = function() {
         if (this.status === 200) {
@@ -73,3 +74,4 @@ export class mainSearch {
         });
     return colorArr;
   }
+}
