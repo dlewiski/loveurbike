@@ -1,9 +1,24 @@
 import { mainSearch } from './bike.js';
 import { missing } from './missing.js';
 import { userDisplay } from './ui.js';
+// import { initApi, initMap } from './maps.js';
 import './styles.css';
+import loadGoogleMapsApi from 'load-google-maps-api';
+// loadGoogleMapsApi.load();
 
 let display = new userDisplay;
+//
+// loadGoogleMapsApi().then(function (googleMaps) {
+//   new googleMaps.Map(document.getElementById('map'), {
+//     center: {
+//       lat: 40.7484405,
+//       lng: -73.9944191
+//     },
+//     zoom: 12
+//   })
+// }).catch(function (error) {
+//   console.error(error)
+// })
 
 
 $(document).ready(function(){
