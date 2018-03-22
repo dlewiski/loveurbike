@@ -1,27 +1,9 @@
 import { mainSearch } from './bike.js';
 import { missing } from './missing.js';
+import { userDisplay } from './ui.js';
 import './styles.css';
 
-let displayColors = function(finishedArray) {
-  $(".output div").remove();
-  $(".output p").remove();
-  for(var index in finishedArray) {
-    $(".output").append("<p>" + index + ": " + finishedArray[index] + "</p>");
-  }
-}
-
-let displayPics = function(body) {
-  $(".output div").remove();
-  $(".output p").remove();
-  body.bikes.forEach(function(element) {
-    if (element.large_img != null) {
-      let date = new Date(element.date_stolen * 1000).toUTCString();
-
-      $(".output").append('<div class="well"><img class="missing-bike" src="' + element.large_img + '" alt="missing bike id ' + element.id + '"/><p class="missing-bike">This is a ' + element.title + '. It was stolen from ' + element.stolen_location + ' on ' + date + '. If youve seen this bike, please contact the owner at <a href="https://bikeindex.org/bikes/' + element.id +  '">bike index.</a></div>');
-    }
-
-  });
-}
+let display = new userDisplay;
 
 
 $(document).ready(function(){
@@ -35,7 +17,7 @@ $(document).ready(function(){
       let promise = newSearch.bikeCall($('#location').val());
       promise.then(function(response){
         let stolenColors = newSearch.displayEachBikeColor(response, colorArr);
-        displayColors(stolenColors);
+        display.displayColors(stolenColors);
       });
       //promise.error();
     });
@@ -47,14 +29,15 @@ $(document).ready(function(){
     event.preventDefault();
 
     let missingSearch = new missing();
-    
+
 
     let promise = missingSearch.apiCall($('#missing-location').val(), $('#missing-results').val());
 
     promise.then(function(otherResponse) {
       let body = JSON.parse(otherResponse);
-      displayPics(body);
-
+      display.displayPics(body);
+    }, function(error) {
+      $('.output').append("<p>Error ERROR!! RED ALERT!!!</p>");
     });
   });
 });
