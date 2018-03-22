@@ -1,4 +1,4 @@
-import { bikeCall, colorCount } from './bike.js';
+import { bikeCall, colorCount, displayEachBikeColor, makeColorArray } from './bike.js';
 
 let displayColors = function(colorArr2) {
   for(var index in colorArr2) {
@@ -8,7 +8,6 @@ let displayColors = function(colorArr2) {
 
 
 $(document).ready(function(){
-  let colorArr = colorCount();
   $('#submit-location').submit(function(event){
     event.preventDefault();
     //bikeCall($('#location').val(), colorArr);
@@ -17,13 +16,16 @@ $(document).ready(function(){
     //     $(".test-output").append("<p>" + index + ": " + colorArr2[index] + "</p>");
     //   }
     // }
-    let promise = bikeCall($('#location').val(), colorArr);
-    promise.then(function(response){
-      let colorArr=displayEachBikeColor(response);
-      displayColors(colorArr);
+    let colorPromise = colorCount()
+    colorPromise.then(function(response){
+      let colorArr = makeColorArray(response)
+      let promise = bikeCall($('#location').val());
+      promise.then(function(response){
+        let stolenColors=displayEachBikeColor(response, colorArr);
+        displayColors(stolenColors);
+      });
+      promise.error();
     });
-    promise.error();
-
-
+    colorPromise.error();
   });
 });
