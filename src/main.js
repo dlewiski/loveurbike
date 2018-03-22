@@ -10,11 +10,12 @@ let displayColors = function(finishedArray) {
 $(document).ready(function(){
   $('#submit-location').submit(function(event){
     event.preventDefault();
-    let newSearch = new mainSearch($('#location').val());
+    let newSearch = new mainSearch();
+    //console.log(newSearch.place);
     let colorPromise = newSearch.colorCount()
     colorPromise.then(function(response){
       let colorArr = newSearch.makeColorArray(response)
-      let promise = newSearch.bikeCall();
+      let promise = newSearch.bikeCall($('#location').val());
       promise.then(function(response){
         let stolenColors = newSearch.displayEachBikeColor(response, colorArr);
         displayColors(stolenColors);
