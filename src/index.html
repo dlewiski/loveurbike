@@ -13,9 +13,22 @@
   <body>
     <div class="container">
       <h1>Bike bike bike</h1>
+      <h2>Colors</h2>
       <form id="submit-location">
         <label for="location">Enter your location (city,state or zip code):</label>
         <input type="text" id="location">
+        <button type="submit" class="btn btn-success">Submit location</button>
+      </form>
+      <h2>Have you seen this bike?</h2>
+      <form id="missing-location-submit">
+        <div class="form-group">
+          <label for="missing-location">Enter your location (city,state or zip code):</label>
+          <input type="text" id="missing-location">
+        </div>
+        <div class="form-group">
+          <label for="missing-results">Enter the number of results you'd like:</label>
+          <input type="text" id="missing-results">
+        </div>
         <button type="submit" class="btn btn-success">Submit location</button>
       </form>
       <div class="output">

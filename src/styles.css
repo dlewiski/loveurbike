@@ -1,0 +1,15 @@
+.missing-bike {
+  width: 400px;
+  border-radius: 20px;
+}
+
+.well {
+  width: auto;
+  background-color: rgba(0, 0, 255, 0.3);
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
